@@ -29,7 +29,7 @@ const VersionHistory: React.FC = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [cleanupModalVisible, setCleanupModalVisible] = useState(false);
   const [cleanupFilter, setCleanupFilter] = useState<'all' | 'older-than'>('older-than');
-  const [olderThanDays, setOlderThanDays] = useState<number>(30);
+  const [olderThanDays, setOlderThanDays] = useState<number>(7);
 
   useEffect(() => {
     loadVersions();
@@ -102,11 +102,6 @@ const VersionHistory: React.FC = () => {
   };
 
   const handleCleanup = () => {
-    const versionsToCleanup = getVersionsToCleanup();
-    if (versionsToCleanup.length === 0) {
-      message.info('No versions match the cleanup criteria');
-      return;
-    }
     setCleanupModalVisible(true);
   };
 
@@ -392,6 +387,7 @@ const VersionHistory: React.FC = () => {
                 >
                   <Select.Option value={7}>7 days</Select.Option>
                   <Select.Option value={14}>14 days</Select.Option>
+                  <Select.Option value={21}>21 days</Select.Option>
                   <Select.Option value={30}>30 days</Select.Option>
                   <Select.Option value={60}>60 days</Select.Option>
                   <Select.Option value={90}>90 days</Select.Option>

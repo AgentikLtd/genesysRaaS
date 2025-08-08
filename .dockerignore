@@ -1,0 +1,45 @@
+# rules-engine-ui/.dockerignore
+# Dependencies
+node_modules
+npm-debug.log
+yarn-error.log
+yarn.lock
+pnpm-lock.yaml
+
+# Build outputs
+dist
+build
+.vite
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# IDE and OS files
+.git
+.gitignore
+.idea
+.vscode
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Documentation
+README.md
+CHANGELOG.md
+LICENSE
+
+# Testing
+coverage
+.nyc_output
+*.test.js
+*.spec.js
+__tests__
+.jest
+
+# Development files
+*.log
+.eslintcache
+.parcel-cache

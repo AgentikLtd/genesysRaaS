@@ -1,0 +1,739 @@
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f5f5f5;
+  color: #333333;
+}
+
+#root {
+  height: 100%;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* CSS Variables for consistent theming */
+:root {
+  --primary-bg: #f8f9fa;
+  --secondary-bg: #ffffff;
+  --tertiary-bg: #f8f9fa;
+  --accent-orange: #ff6b35;
+  --accent-orange-hover: #e55a2b;
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --text-muted: #999999;
+  --border-color: #d9d9d9;
+  --border-color-light: #e8e8e8;
+}
+
+/* Ant Design overrides */
+.ant-layout {
+  min-height: 100vh;
+  background-color: var(--primary-bg) !important;
+}
+
+.ant-layout-header {
+  background-color: var(--secondary-bg) !important;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.ant-layout-sider {
+  background-color: var(--tertiary-bg) !important;
+  border-right: 1px solid var(--border-color) !important;
+}
+
+/* Fix sider collapse button (back button) styling */
+.ant-layout-sider-trigger {
+  background: linear-gradient(135deg, #f0f0f0 0%, #e8e8e8 100%) !important;
+  border-top: 1px solid #d9d9d9 !important;
+  color: #666666 !important;
+  transition: all 0.3s ease !important;
+}
+
+.ant-layout-sider-trigger:hover {
+  background: linear-gradient(135deg, #ff6b35 0%, #ff8555 100%) !important;
+  color: white !important;
+}
+
+.ant-layout-content {
+  background-color: var(--primary-bg) !important;
+}
+
+.ant-menu {
+  background-color: transparent !important;
+  border-right: none !important;
+  padding: 0 12px !important;
+}
+
+.ant-menu .ant-menu-item {
+  margin: 4px 0 !important;
+}
+
+/* Button overrides */
+.ant-btn-primary {
+  background-color: var(--accent-orange) !important;
+  border-color: var(--accent-orange) !important;
+}
+
+.ant-btn-primary:hover {
+  background-color: var(--accent-orange-hover) !important;
+  border-color: var(--accent-orange-hover) !important;
+}
+
+.ant-btn-default {
+  background-color: var(--tertiary-bg) !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-primary) !important;
+}
+
+.ant-btn-default:hover {
+  background-color: var(--secondary-bg) !important;
+  border-color: var(--border-color-light) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Form controls */
+.ant-input {
+  background-color: var(--tertiary-bg) !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-primary) !important;
+}
+
+.ant-input:hover {
+  border-color: var(--border-color-light) !important;
+}
+
+.ant-input:focus {
+  border-color: var(--accent-orange) !important;
+  box-shadow: 0 0 0 2px rgba(255, 107, 53, 0.2) !important;
+}
+
+.ant-select {
+  color: var(--text-primary) !important;
+}
+
+.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  background-color: var(--tertiary-bg) !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-primary) !important;
+}
+
+.ant-select-dropdown {
+  background-color: var(--tertiary-bg) !important;
+}
+
+.ant-select-item {
+  color: var(--text-primary) !important;
+}
+
+.ant-select-item-option-selected {
+  background-color: var(--accent-orange) !important;
+  color: white !important;
+}
+
+/* Card and Panel styling */
+.ant-card {
+  background-color: var(--secondary-bg) !important;
+  border-color: var(--border-color) !important;
+}
+
+.ant-card-head {
+  background-color: var(--tertiary-bg) !important;
+  border-bottom-color: var(--border-color) !important;
+}
+
+.ant-card-head-title {
+  color: var(--text-primary) !important;
+}
+
+.ant-card-body {
+  color: var(--text-primary) !important;
+}
+
+/* Table styling */
+.ant-table {
+  background-color: var(--secondary-bg) !important;
+}
+
+.ant-table-thead > tr > th {
+  background-color: var(--tertiary-bg) !important;
+  color: var(--text-primary) !important;
+  border-bottom-color: var(--border-color) !important;
+}
+
+.ant-table-tbody > tr > td {
+  background-color: var(--secondary-bg) !important;
+  color: var(--text-primary) !important;
+  border-bottom-color: var(--border-color) !important;
+}
+
+.ant-table-tbody > tr:hover > td {
+  background-color: var(--tertiary-bg) !important;
+}
+
+/* Modal styling */
+.ant-modal-content {
+  background-color: var(--secondary-bg) !important;
+}
+
+.ant-modal-header {
+  background-color: var(--tertiary-bg) !important;
+  border-bottom-color: var(--border-color) !important;
+}
+
+.ant-modal-title {
+  color: var(--text-primary) !important;
+}
+
+.ant-modal-body {
+  color: var(--text-primary) !important;
+}
+
+.ant-modal-footer {
+  background-color: var(--tertiary-bg) !important;
+  border-top-color: var(--border-color) !important;
+}
+
+/* Monaco Editor styles */
+.monaco-editor-container {
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background-color: var(--secondary-bg);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--secondary-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-color-light);
+}
+
+/* Typography improvements */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-primary) !important;
+}
+
+.ant-typography {
+  color: var(--text-primary) !important;
+}
+
+.ant-typography-caption {
+  color: var(--text-secondary) !important;
+}
+
+/* Badge and status indicators */
+.ant-badge-status-text {
+  color: var(--text-secondary) !important;
+}
+
+/* Dropdown menus */
+.ant-dropdown {
+  background-color: var(--tertiary-bg) !important;
+}
+
+.ant-dropdown-menu {
+  background-color: var(--tertiary-bg) !important;
+}
+
+.ant-dropdown-menu-item {
+  color: var(--text-primary) !important;
+}
+
+.ant-dropdown-menu-item:hover {
+  background-color: var(--secondary-bg) !important;
+}
+
+/* Tooltip */
+.ant-tooltip-inner {
+  background-color: var(--tertiary-bg) !important;
+  color: var(--text-primary) !important;
+}
+
+/* React Flow specific styles for rule editor */
+.react-flow__viewport {
+  background-color: var(--primary-bg) !important;
+}
+
+.react-flow__background {
+  background-color: var(--primary-bg) !important;
+}
+
+.react-flow__controls {
+  background-color: var(--secondary-bg) !important;
+  border: 1px solid var(--border-color) !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  border-radius: 6px;
+}
+
+.react-flow__controls-button {
+  background-color: var(--secondary-bg) !important;
+  color: var(--text-primary) !important;
+  border-bottom: 1px solid var(--border-color) !important;
+  border-radius: 0;
+}
+
+.react-flow__controls-button:hover {
+  background-color: var(--accent-orange) !important;
+  color: white !important;
+}
+
+.react-flow__controls-button:first-child {
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+
+.react-flow__controls-button:last-child {
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+  border-bottom: none;
+}
+
+.react-flow__minimap {
+  background-color: var(--secondary-bg) !important;
+  border: 1px solid var(--border-color) !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  border-radius: 6px;
+}
+
+.react-flow__node {
+  background-color: transparent !important;
+  color: var(--text-primary) !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.react-flow__node .react-flow__handle {
+  background-color: var(--accent-orange) !important;
+  border: 1px solid white !important;
+  width: 8px !important;
+  height: 8px !important;
+}
+
+.react-flow__edge-path {
+  stroke: var(--text-secondary) !important;
+  stroke-width: 1px;
+}
+
+.react-flow__edge.selected .react-flow__edge-path {
+  stroke: var(--accent-orange) !important;
+  stroke-width: 2px;
+}
+
+/* Custom node styling - let the individual nodes handle their own styling */
+.react-flow__node-default {
+  background-color: var(--secondary-bg) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 6px !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08) !important;
+  color: var(--text-primary) !important;
+  padding: 10px !important;
+}
+
+.react-flow__node-default.selected {
+  border-color: var(--accent-orange) !important;
+  box-shadow: 0 0 0 2px rgba(255, 107, 53, 0.2) !important;
+}
+
+/* Drawer styling */
+.ant-drawer-content {
+  background-color: var(--secondary-bg) !important;
+}
+
+.ant-drawer-header {
+  background-color: var(--tertiary-bg) !important;
+  border-bottom-color: var(--border-color) !important;
+}
+
+.ant-drawer-title {
+  color: var(--text-primary) !important;
+}
+
+.ant-drawer-body {
+  background-color: var(--secondary-bg) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Tabs styling */
+.ant-tabs {
+  color: var(--text-primary) !important;
+}
+
+.ant-tabs-tab {
+  color: var(--text-secondary) !important;
+}
+
+.ant-tabs-tab-active {
+  color: var(--accent-orange) !important;
+}
+
+.ant-tabs-ink-bar {
+  background-color: var(--accent-orange) !important;
+}
+
+.ant-tabs-content-holder {
+  background-color: var(--secondary-bg) !important;
+}
+
+/* Steps/Progress styling */
+.ant-steps-item-process .ant-steps-item-icon {
+  background-color: var(--accent-orange) !important;
+  border-color: var(--accent-orange) !important;
+}
+
+.ant-steps-item-finish .ant-steps-item-icon {
+  background-color: var(--accent-orange) !important;
+  border-color: var(--accent-orange) !important;
+}
+
+.ant-steps-item-finish .ant-steps-item-icon > .ant-steps-icon {
+  color: white !important;
+}
+
+/* Enhanced Card styling for the stats boxes */
+.ant-card {
+  transition: all 0.3s ease !important;
+}
+
+.ant-card:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08) !important;
+}
+
+/* Larger padding for stats cards */
+.ant-card .ant-card-body {
+  padding: 20px !important;
+}
+
+/* Enhanced Statistics component styling */
+.ant-statistic-title {
+  font-weight: 600 !important;
+  margin-bottom: 8px !important;
+  font-size: 16px !important;
+  letter-spacing: 0.5px !important;
+}
+
+.ant-statistic-content-value {
+  font-weight: 800 !important;
+  font-size: 28px !important;
+  line-height: 1.2 !important;
+}
+
+/* Enhanced Menu styling with orange accents - Light Theme */
+.ant-menu-light .ant-menu-item {
+  color: #333333 !important;
+  font-weight: 500 !important;
+  border-radius: 8px !important;
+  transition: all 0.3s ease !important;
+  overflow: hidden !important;
+}
+
+.ant-menu-light .ant-menu-item:hover {
+  background: linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(255, 133, 85, 0.1) 100%) !important;
+  color: #ff6b35 !important;
+}
+
+.ant-menu-light .ant-menu-item-selected {
+  background: linear-gradient(135deg, #ff6b35 0%, #ff8555 100%) !important;
+  color: white !important;
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.1) !important;
+  border: none !important;
+}
+
+.ant-menu-light .ant-menu-item-selected::after {
+  display: none !important;
+}
+
+.ant-menu-light .ant-menu-item-selected .anticon {
+  color: white !important;
+}
+
+/* Ensure the sidebar container clips content */
+.ant-layout-sider .ant-layout-sider-children {
+  overflow: hidden !important;
+}
+
+.ant-menu {
+  overflow: hidden !important;
+}
+
+/* Enhanced sidebar styling */
+.ant-layout-sider {
+  box-shadow: 2px 0 8px rgba(0,0,0,0.1) !important;
+}
+
+/* Enhanced header styling */
+.ant-layout-header {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06) !important;
+  backdrop-filter: blur(8px) !important;
+}
+
+/* Enhanced button hover effects */
+.ant-btn {
+  transition: all 0.3s ease !important;
+}
+
+.ant-btn:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+}
+
+.ant-btn-primary:hover {
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.4) !important;
+}
+
+/* Preserve Rules Configuration Card styling - no hover effects for the main config card */
+.ant-card .ant-card-head-title {
+  font-weight: 600 !important;
+}
+
+.ant-card:has(.monaco-editor-container),
+.ant-card:has(.react-flow__renderer) {
+  transform: none !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08) !important;
+}
+
+.ant-card:has(.monaco-editor-container):hover,
+.ant-card:has(.react-flow__renderer):hover {
+  transform: none !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08) !important;
+}
+
+/* Enhanced gradient backgrounds for variety */
+.stats-gradient-1 {
+  background: linear-gradient(135deg, #fff 0%, #fff8f5 100%) !important;
+}
+
+.stats-gradient-2 {
+  background: linear-gradient(135deg, #fff 0%, #f0f8ff 100%) !important;
+}
+
+.stats-gradient-3 {
+  background: linear-gradient(135deg, #fff 0%, #f6ffed 100%) !important;
+}
+
+.stats-gradient-4-modified {
+  background: linear-gradient(135deg, #fff 0%, #fff1f0 100%) !important;
+}
+
+.stats-gradient-4-saved {
+  background: linear-gradient(135deg, #fff 0%, #f6ffed 100%) !important;
+}
+
+/* Content area enhancements */
+.ant-layout-content {
+  background: linear-gradient(180deg, #f5f5f5 0%, #fafafa 100%) !important;
+}
+
+/* Icon enhancements for the stats cards */
+.anticon {
+  transition: all 0.3s ease !important;
+}
+
+.ant-statistic-title .anticon {
+  font-size: 20px !important;
+  vertical-align: middle !important;
+  margin-right: 8px !important;
+}
+
+/* Larger icons for better visual impact */
+.ant-statistic-title .ant-space-item:first-child .anticon {
+  font-size: 24px !important;
+}
+
+/* Enhanced Tabs styling to match orange theme */
+.ant-tabs .ant-tabs-tab {
+  transition: all 0.3s ease !important;
+}
+
+.ant-tabs .ant-tabs-tab:hover {
+  color: var(--accent-orange) !important;
+}
+
+.ant-tabs .ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: var(--accent-orange) !important;
+  font-weight: 600 !important;
+}
+
+.ant-tabs .ant-tabs-ink-bar {
+  background: linear-gradient(135deg, var(--accent-orange) 0%, #ff8555 100%) !important;
+  height: 3px !important;
+  border-radius: 2px !important;
+}
+
+/* Modern Info Cards */
+.info-card {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #f0f0f0;
+  transition: all 0.3s ease;
+  min-height: 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+.info-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: #e0e0e0;
+  transition: all 0.3s ease;
+}
+
+.info-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  border-color: #e0e0e0;
+}
+
+.info-card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  margin-right: 16px;
+  font-size: 20px;
+  transition: all 0.3s ease;
+}
+
+.info-card-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.info-card-label {
+  font-size: 14px;
+  color: #6b7280;
+  font-weight: 500;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.info-card-value {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1f2937;
+  line-height: 1.2;
+}
+
+/* Color variants */
+.info-card-orange::before {
+  background: linear-gradient(135deg, #ff6b35 0%, #ff8555 100%);
+}
+
+.info-card-orange .info-card-icon {
+  background: rgba(255, 107, 53, 0.1);
+  color: #ff6b35;
+}
+
+.info-card-orange .info-card-value {
+  color: #ff6b35;
+}
+
+.info-card-blue::before {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+}
+
+.info-card-blue .info-card-icon {
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+}
+
+.info-card-blue .info-card-value {
+  color: #3b82f6;
+}
+
+.info-card-green::before {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.info-card-green .info-card-icon {
+  background: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+}
+
+.info-card-green .info-card-value {
+  color: #10b981;
+}
+
+.info-card-success::before {
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+}
+
+.info-card-success .info-card-icon {
+  background: rgba(34, 197, 94, 0.1);
+  color: #22c55e;
+}
+
+.info-card-success .info-card-value {
+  color: #22c55e;
+}
+
+.info-card-red::before {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+.info-card-red .info-card-icon {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+.info-card-red .info-card-value {
+  color: #ef4444;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .info-card {
+    padding: 16px;
+    min-height: 70px;
+  }
+  
+  .info-card-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+    margin-right: 12px;
+  }
+  
+  .info-card-label {
+    font-size: 12px;
+  }
+  
+  .info-card-value {
+    font-size: 18px;
+  }
+}
