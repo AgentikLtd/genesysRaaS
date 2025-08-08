@@ -30,7 +30,9 @@ import {
   ZoomOutOutlined,
   FullscreenOutlined,
   EyeOutlined,
-  EyeInvisibleOutlined
+  EyeInvisibleOutlined,
+  CheckCircleOutlined,
+  CloseCircleOutlined
 } from '@ant-design/icons';
 import 'reactflow/dist/style.css';
 
@@ -232,6 +234,21 @@ const RuleFlow: React.FC<RuleFlowProps> = ({
       setValidationResult(validation);
     }, 100);
   }, [nodes, edges, setNodes]);
+
+  /**
+   * Handle node deletion from properties panel
+   */
+  const handleNodeDelete = useCallback((nodeId: string) => {
+    setNodes((nds) => nds.filter((node) => node.id !== nodeId));
+    setEdges((eds) => eds.filter((edge) => edge.source !== nodeId && edge.target !== nodeId));
+    setHasChanges(true);
+    
+    // Re-validate after deletion
+    setTimeout(() => {
+      const validation = validateFlow(nodes, edges);
+      setValidationResult(validation);
+    }, 100);
+  }, [nodes, edges, setNodes, setEdges]);
 
   /**
    * Handle saving changes
@@ -475,12 +492,20 @@ const RuleFlow: React.FC<RuleFlowProps> = ({
                 onClick={() => setShowNodePalette(!showNodePalette)}
               />
             </AntTooltip>
-            <Button
-              onClick={() => setShowValidation(!showValidation)}
-              type={validationResult && !validationResult.isValid ? 'danger' : 'default'}
-            >
-              Validation {validationResult && `(${getValidationSummary(validationResult)})`}
-            </Button>
+            <AntTooltip title={validationResult ? getValidationSummary(validationResult) : 'Run validation'}>
+              <Button
+                onClick={() => setShowValidation(!showValidation)}
+                danger={validationResult && !validationResult.isValid}
+                icon={validationResult ? 
+                  (validationResult.isValid ? 
+                    <CheckCircleOutlined style={{ color: '#52c41a' }} /> : 
+                    <CloseCircleOutlined style={{ color: '#ff4d4f' }} />
+                  ) : null
+                }
+              >
+                Validation
+              </Button>
+            </AntTooltip>
             <AntTooltip title="Undo (Ctrl+Z)">
               <Button
                 icon={<UndoOutlined />}
@@ -556,7 +581,7 @@ const RuleFlow: React.FC<RuleFlowProps> = ({
         >
           <Controls 
             showInteractive={false}
-            position="top-left"
+            position="bottom-left"
           />
           <MiniMap 
             nodeStrokeColor={(node) => {
@@ -609,6 +634,7 @@ const RuleFlow: React.FC<RuleFlowProps> = ({
           <PropertiesPanel
             node={selectedNode}
             onUpdate={handleNodeUpdate}
+            onDelete={handleNodeDelete}
             onClose={() => setSelectedNode(null)}
           />
         )}
