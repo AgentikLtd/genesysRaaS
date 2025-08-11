@@ -221,6 +221,17 @@ class GenesysService {
   }
 
   /**
+   * Get the token expiry time
+   */
+  getTokenExpiry(): Date | null {
+    const authData = this.client.ApiClient.instance.authData || this.getPersistedAuth();
+    if (authData && authData.tokenExpiryTime) {
+      return new Date(authData.tokenExpiryTime);
+    }
+    return null;
+  }
+
+  /**
    * Clear all authentication data
    */
   clearAuthData(): void {

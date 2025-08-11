@@ -14,11 +14,11 @@ import {
   Space, 
   Divider,
   Alert,
-  Switch,
-  Tag
+  Tag,
+  Modal
 } from 'antd';
 import { Node } from 'reactflow';
-import { SaveOutlined } from '@ant-design/icons';
+import { SaveOutlined, DeleteOutlined } from '@ant-design/icons';
 import { AVAILABLE_OPERATORS } from '../types';
 import { validateNodeData } from '../utils/validation';
 
@@ -28,6 +28,7 @@ const { Option } = Select;
 interface PropertiesPanelProps {
   node: Node;
   onUpdate: (nodeId: string, data: any) => void;
+  onDelete: (nodeId: string) => void;
   onClose: () => void;
 }
 
@@ -37,6 +38,7 @@ interface PropertiesPanelProps {
 const PropertiesPanel: React.FC<PropertiesPanelProps> = ({ 
   node, 
   onUpdate, 
+  onDelete,
   onClose 
 }) => {
   const [form] = Form.useForm();
@@ -65,6 +67,33 @@ const PropertiesPanel: React.FC<PropertiesPanelProps> = ({
     onUpdate(node.id, values);
     setValidationErrors([]);
     onClose();
+  };
+
+  /**
+   * Handle node deletion
+   */
+  const handleDelete = () => {
+    // Don't allow deletion of header or event nodes
+    if (node.type === 'ruleHeader' || node.type === 'eventNode') {
+      Modal.error({
+        title: 'Cannot Delete',
+        content: 'Header and event nodes cannot be deleted.',
+      });
+      return;
+    }
+
+    Modal.confirm({
+      title: 'Delete Node',
+      content: 'Are you sure you want to delete this condition node? This action cannot be undone.',
+      okText: 'Delete',
+      okType: 'danger',
+      cancelText: 'Cancel',
+      icon: <DeleteOutlined style={{ color: '#ff4d4f' }} />,
+      onOk() {
+        onDelete(node.id);
+        onClose();
+      },
+    });
   };
 
   /**
@@ -250,6 +279,7 @@ const PropertiesPanel: React.FC<PropertiesPanelProps> = ({
               description="This operator controls how child conditions are evaluated. Changes will update the visual representation immediately."
               type="info"
               showIcon
+              style={{ marginBottom: 24 }}
             />
           </>
         );
@@ -291,14 +321,25 @@ const PropertiesPanel: React.FC<PropertiesPanelProps> = ({
 
         {renderFormFields()}
 
-        <Form.Item>
-          <Space style={{ width: '100%', justifyContent: 'flex-end' }}>
+        <Form.Item style={{ marginTop: 32 }}>
+          <Space style={{ width: '100%', justifyContent: 'space-between' }}>
             <Button onClick={onClose}>
               Cancel
             </Button>
-            <Button type="primary" htmlType="submit" icon={<SaveOutlined />}>
-              Save Changes
-            </Button>
+            <Space>
+              {node.type !== 'ruleHeader' && node.type !== 'eventNode' && (
+                <Button 
+                  danger 
+                  icon={<DeleteOutlined />}
+                  onClick={handleDelete}
+                >
+                  Delete
+                </Button>
+              )}
+              <Button type="primary" htmlType="submit" icon={<SaveOutlined />}>
+                Save Changes
+              </Button>
+            </Space>
           </Space>
         </Form.Item>
       </Form>

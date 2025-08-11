@@ -149,7 +149,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         // Get user info
         const currentUser = await genesysService.getCurrentUser();
         const currentToken = genesysService.getAccessToken();
-        const expiry = calculateTokenExpiry();
+        const serviceExpiry = genesysService.getTokenExpiry();
+        const expiry = serviceExpiry || calculateTokenExpiry();
+        
+        console.log('AuthContext: Setting token from genesysService');
+        console.log('AuthContext: Token exists:', !!currentToken);
+        console.log('AuthContext: Expiry:', expiry);
         
         setUser(currentUser);
         setToken(currentToken);
@@ -251,10 +256,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
    * Check if the current token is valid
    */
   const isTokenValid = (): boolean => {
-    if (!token || !tokenExpiry) return false;
+    // Check AuthContext token first
+    if (token && tokenExpiry) {
+      const now = new Date();
+      return tokenExpiry.getTime() > now.getTime();
+    }
     
-    const now = new Date();
-    return tokenExpiry.getTime() > now.getTime();
+    // Fallback to genesysService if AuthContext doesn't have token yet
+    return genesysService.isAuthenticated();
   };
 
   /**

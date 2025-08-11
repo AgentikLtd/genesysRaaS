@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { ConfigProvider, theme } from 'antd';
 import Login from './pages/LoginPage';
 import AuthCallback from './pages/AuthCallback';
@@ -50,8 +50,7 @@ const App: React.FC = () => {
 
   return (
     <ConfigProvider theme={lightTheme}>
-      <Router>
-        <Routes>
+      <Routes>
           {/* Public routes */}
           <Route path="/login" element={<Login />} />
           <Route path="/auth/callback" element={<AuthCallback />} />
@@ -82,7 +81,6 @@ const App: React.FC = () => {
           {/* 404 page - must be last */}
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </Router>
     </ConfigProvider>
   );
 };

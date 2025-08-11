@@ -17,9 +17,11 @@ import {
   UserOutlined,
   LogoutOutlined,
   QuestionCircleOutlined,
-  SafetyOutlined
+  SafetyOutlined,
+  LockOutlined
 } from '@ant-design/icons';
 import { useAuth } from '../contexts/AuthContext';
+import { useRulesEditor } from '../contexts/RulesEditorContext';
 import { HelpWiki } from './HelpWiki';
 
 const { Header, Sider, Content } = Layout;
@@ -28,6 +30,7 @@ export const MainLayout: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { user, logout, tokenExpiry } = useAuth();
+  const { hasUnsavedChanges, isEditorActive } = useRulesEditor();
   const [helpVisible, setHelpVisible] = useState(false);
   const [tokenStatus, setTokenStatus] = useState({ status: 'success', text: 'Valid' });
 
@@ -119,16 +122,26 @@ export const MainLayout: React.FC = () => {
           
           <Space size="large">
             {/* Token Status Indicator */}
-            <Tooltip title={`OAuth Token Status`}>
-              <Badge 
-                status={tokenStatus.status as any}
-                text={
-                  <span style={{ color: 'var(--text-secondary)', fontSize: '12px' }}>
-                    <SafetyOutlined /> {tokenStatus.text}
-                  </span>
-                }
-              />
+            <Tooltip title={`OAuth Token Status: ${tokenStatus.text}`}>
+              <div style={{ marginRight: '16px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <Badge status={tokenStatus.status as any} />
+                <SafetyOutlined style={{ color: 'var(--text-secondary)', fontSize: '16px' }} />
+              </div>
             </Tooltip>
+
+            {/* Rules Editor Status Indicator */}
+            {(isEditorActive || hasUnsavedChanges) && (
+              <Tooltip title={hasUnsavedChanges ? "Rules have unsaved changes" : "Rules editor is active"}>
+                <Badge 
+                  status={hasUnsavedChanges ? "error" : "processing"}
+                  text={
+                    <span style={{ color: 'var(--text-secondary)', fontSize: '12px' }}>
+                      <LockOutlined /> {hasUnsavedChanges ? "Unsaved" : "In Use"}
+                    </span>
+                  }
+                />
+              </Tooltip>
+            )}
 
             {/* Help Button */}
             <Button

@@ -143,16 +143,7 @@ const NodePalette: React.FC<NodePaletteProps> = ({ onNodeDragStart }) => {
                     cursor: 'grab',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: 8,
-                    transition: 'all 0.2s'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = '#e6f7ff';
-                    e.currentTarget.style.borderColor = '#1890ff';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = '#fafafa';
-                    e.currentTarget.style.borderColor = '#d9d9d9';
+                    gap: 8
                   }}
                 >
                   {node.icon}
@@ -180,16 +171,7 @@ const NodePalette: React.FC<NodePaletteProps> = ({ onNodeDragStart }) => {
                     cursor: 'grab',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: 8,
-                    transition: 'all 0.2s'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = '#f6ffed';
-                    e.currentTarget.style.borderColor = '#52c41a';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = '#fafafa';
-                    e.currentTarget.style.borderColor = '#d9d9d9';
+                    gap: 8
                   }}
                 >
                   {node.icon}

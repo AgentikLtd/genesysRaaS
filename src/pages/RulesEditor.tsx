@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Card, Row, Col, Button, Space, Typography, message, Spin, Statistic, Modal, Alert, Tag, Input, Tooltip, Radio, Dropdown, Menu } from 'antd';
-import { SaveOutlined, PlayCircleOutlined, UndoOutlined, DeploymentUnitOutlined, ExclamationCircleOutlined, CodeOutlined, PartitionOutlined, PlusOutlined, FileAddOutlined, CopyOutlined, TagOutlined, FileTextOutlined, ClockCircleOutlined, CheckCircleOutlined, EditOutlined } from '@ant-design/icons';
+import { Card, Row, Col, Button, Space, Typography, message, Spin, Statistic, Modal, Alert, Tag, Input, Tooltip, Radio, Dropdown, Menu, Collapse } from 'antd';
+import { SaveOutlined, PlayCircleOutlined, UndoOutlined, DeploymentUnitOutlined, ExclamationCircleOutlined, CodeOutlined, PartitionOutlined, PlusOutlined, FileAddOutlined, CopyOutlined, TagOutlined, FileTextOutlined, ClockCircleOutlined, CheckCircleOutlined, EditOutlined, DownOutlined, RightOutlined } from '@ant-design/icons';
 import MonacoEditor from '@monaco-editor/react';
 import { useNavigate } from 'react-router-dom';
 import { genesysService } from '../services/genesysService';
@@ -47,6 +47,7 @@ export const RulesEditor: React.FC = () => {
   const [editorMode, setEditorMode] = useState<'json' | 'visual'>('json');
   const [parsedRules, setParsedRules] = useState<any>(null);
   const [templateModalVisible, setTemplateModalVisible] = useState(false);
+  const [expandedRuleIndex, setExpandedRuleIndex] = useState<number | null>(null);
 
   /**
    * Load active rules on component mount
@@ -404,6 +405,7 @@ export const RulesEditor: React.FC = () => {
     }
     setTestModalVisible(true);
     setTestResult(null);
+    setExpandedRuleIndex(null);
   };
 
   /**
@@ -412,6 +414,7 @@ export const RulesEditor: React.FC = () => {
   const runTest = async () => {
     try {
       setIsTestRunning(true);
+      setExpandedRuleIndex(null); // Reset expanded rule when running new test
       const startTime = Date.now();
       
       // Parse input and rules with validation
@@ -494,6 +497,25 @@ export const RulesEditor: React.FC = () => {
       setSyntaxError('');
       message.info('Reset to current active rules');
     }
+  };
+
+  /**
+   * Sort evaluation steps to show matched rules first
+   */
+  const getSortedEvaluationSteps = (steps: any[]) => {
+    return [...steps].sort((a, b) => {
+      // Matched rules (passed=true) come first
+      if (a.passed && !b.passed) return -1;
+      if (!a.passed && b.passed) return 1;
+      return 0;
+    });
+  };
+
+  /**
+   * Handle rule expansion toggle
+   */
+  const handleRuleToggle = (index: number) => {
+    setExpandedRuleIndex(expandedRuleIndex === index ? null : index);
   };
 
   if (loading) {
@@ -742,6 +764,7 @@ export const RulesEditor: React.FC = () => {
         onCancel={() => {
           setTestModalVisible(false);
           setTestResult(null);
+          setExpandedRuleIndex(null);
         }}
         width={1000}
         confirmLoading={isTestRunning}
@@ -804,32 +827,91 @@ export const RulesEditor: React.FC = () => {
                   {testResult.evaluationSteps && (
                     <div>
                       <strong>Rule Evaluation Details:</strong>
-                      <div style={{ maxHeight: 200, overflowY: 'auto', marginTop: 8 }}>
-                        {testResult.evaluationSteps.map((step, idx) => (
-                          <div key={idx} style={{ 
-                            marginBottom: 8, 
-                            padding: 8, 
-                            background: step.passed ? '#f6ffed' : '#fff1f0',
-                            border: `1px solid ${step.passed ? '#b7eb8f' : '#ffccc7'}`,
-                            borderRadius: 4
-                          }}>
-                            <div>
-                              <Tag color={step.passed ? 'success' : 'default'}>
-                                {step.ruleName}
-                              </Tag>
-                              <span style={{ marginLeft: 8, fontSize: 12, color: '#666' }}>
-                                {step.passed ? 'MATCHED' : 'NOT MATCHED'}
-                              </span>
+                      <div style={{ maxHeight: 300, overflowY: 'auto', marginTop: 8 }}>
+                        {getSortedEvaluationSteps(testResult.evaluationSteps).map((step, idx) => (
+                          <div 
+                            key={idx} 
+                            style={{ 
+                              marginBottom: 4, 
+                              border: `1px solid ${step.passed ? '#b7eb8f' : '#d9d9d9'}`,
+                              borderRadius: 6,
+                              overflow: 'hidden'
+                            }}
+                          >
+                            {/* Rule Summary Header - Clickable */}
+                            <div 
+                              onClick={() => handleRuleToggle(idx)}
+                              style={{ 
+                                padding: '8px 12px',
+                                background: step.passed ? '#f6ffed' : '#fafafa',
+                                cursor: 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                                borderBottom: expandedRuleIndex === idx ? `1px solid ${step.passed ? '#b7eb8f' : '#d9d9d9'}` : 'none'
+                              }}
+                            >
+                              <div style={{ display: 'flex', alignItems: 'center' }}>
+                                <Tag 
+                                  color={step.passed ? 'success' : 'default'}
+                                  style={{ margin: 0, marginRight: 8 }}
+                                >
+                                  {step.ruleName}
+                                </Tag>
+                                <span style={{ fontSize: 12, color: '#666' }}>
+                                  {step.passed ? 'MATCHED' : 'NOT MATCHED'}
+                                </span>
+                                {step.conditions.length > 0 && (
+                                  <span style={{ 
+                                    fontSize: 11, 
+                                    color: '#999', 
+                                    marginLeft: 8,
+                                    fontStyle: 'italic'
+                                  }}>
+                                    ({step.conditions.length} condition{step.conditions.length !== 1 ? 's' : ''})
+                                  </span>
+                                )}
+                              </div>
+                              <div style={{ color: '#666' }}>
+                                {expandedRuleIndex === idx ? 
+                                  <DownOutlined style={{ fontSize: 10 }} /> : 
+                                  <RightOutlined style={{ fontSize: 10 }} />
+                                }
+                              </div>
                             </div>
-                            {step.conditions.length > 0 && (
-                              <div style={{ marginTop: 4, fontSize: 12 }}>
+
+                            {/* Rule Details - Collapsible */}
+                            {expandedRuleIndex === idx && step.conditions.length > 0 && (
+                              <div style={{ 
+                                padding: '8px 12px',
+                                background: '#fafafa',
+                                fontSize: 12
+                              }}>
+                                <div style={{ marginBottom: 4, fontWeight: 500, color: '#666' }}>
+                                  Condition Details:
+                                </div>
                                 {step.conditions.map((cond: any, cidx: number) => (
-                                  <div key={cidx} style={{ marginLeft: 16, color: '#666' }}>
-                                    {cond.fact}: {cond.actual} {cond.operator} {cond.expected} 
-                                    {cond.passed ? 
-                                      <span style={{ color: '#52c41a' }}> ✓</span> : 
-                                      <span style={{ color: '#ff4d4f' }}> ✗</span>
-                                    }
+                                  <div key={cidx} style={{ 
+                                    marginLeft: 8, 
+                                    marginBottom: 2,
+                                    padding: '2px 4px',
+                                    background: 'white',
+                                    border: `1px solid ${cond.passed ? '#b7eb8f' : '#ffccc7'}`,
+                                    borderRadius: 3,
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center'
+                                  }}>
+                                    <span style={{ color: '#333' }}>
+                                      <strong>{cond.fact}:</strong> {String(cond.actual)} {cond.operator} {String(cond.expected)}
+                                    </span>
+                                    <span style={{ 
+                                      color: cond.passed ? '#52c41a' : '#ff4d4f',
+                                      fontWeight: 'bold',
+                                      fontSize: 11
+                                    }}>
+                                      {cond.passed ? '✓' : '✗'}
+                                    </span>
                                   </div>
                                 ))}
                               </div>
