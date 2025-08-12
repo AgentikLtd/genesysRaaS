@@ -54,20 +54,20 @@ export const HelpWiki: React.FC<HelpWikiProps> = ({ visible, onClose }) => {
             <div>
               <Title level={4}>Welcome to Genesys Rules Engine Manager</Title>
               <Paragraph>
-                This application enables you to dynamically manage call routing rules for your Genesys contact center 
-                without redeploying Lambda functions. Rules determine how incoming calls are routed to different queues 
-                based on customer data, intent, priority, and business logic.
+                This application provides dynamic management of call routing rules for your Genesys Cloud contact center 
+                through direct integration with Genesys Data Tables API. Rules determine how incoming calls are routed to different queues 
+                based on customer data, intent, priority, and business logic without requiring code deployments.
               </Paragraph>
             </div>
             
             <Card title="Key Features" size="small">
               <Space direction="vertical" style={{ width: '100%' }}>
-                <div><EditOutlined style={{ color: '#1890ff' }} /> <strong>Dual Editor Modes:</strong> JSON editor and Visual flow designer</div>
-                <div><PartitionOutlined style={{ color: '#52c41a' }} /> <strong>Visual Rule Builder:</strong> Drag-and-drop interface for complex logic</div>
-                <div><CodeOutlined style={{ color: '#722ed1' }} /> <strong>Syntax Highlighting:</strong> Real-time validation and error detection</div>
-                <div><PlayCircleOutlined style={{ color: '#fa8c16' }} /> <strong>Rule Testing:</strong> Simulate routing with sample data</div>
-                <div><FileTextOutlined style={{ color: '#13c2c2' }} /> <strong>Template System:</strong> Pre-built patterns for common scenarios</div>
-                <div><DeploymentUnitOutlined style={{ color: '#f5222d' }} /> <strong>Version Control:</strong> Track changes and rollback capability</div>
+                <div><EditOutlined style={{ color: '#1890ff' }} /> <strong>Dual Editor Modes:</strong> Monaco JSON editor with syntax highlighting and React Flow visual designer</div>
+                <div><PartitionOutlined style={{ color: '#52c41a' }} /> <strong>Visual Rule Builder:</strong> Drag-and-drop flowchart interface with auto-layout and node palette</div>
+                <div><CodeOutlined style={{ color: '#722ed1' }} /> <strong>Advanced Validation:</strong> Real-time syntax and structural validation with detailed error reporting</div>
+                <div><PlayCircleOutlined style={{ color: '#fa8c16' }} /> <strong>Rule Simulation:</strong> Client-side rules engine with detailed execution steps and condition-by-condition analysis</div>
+                <div><FileTextOutlined style={{ color: '#13c2c2' }} /> <strong>Template System:</strong> Comprehensive library of customizable templates with variable substitution</div>
+                <div><DeploymentUnitOutlined style={{ color: '#f5222d' }} /> <strong>Version Management:</strong> Complete version history, rollback, and cleanup with audit trails</div>
               </Space>
             </Card>
 
@@ -101,6 +101,15 @@ export const HelpWiki: React.FC<HelpWikiProps> = ({ visible, onClose }) => {
               </Steps>
             </Card>
             
+            <Card title="Authentication & Security" size="small">
+              <Space direction="vertical" style={{ width: '100%' }}>
+                <div><strong>OAuth 2.0 Integration:</strong> Secure authentication with Genesys Cloud using Implicit Grant flow</div>
+                <div><strong>Automatic Token Refresh:</strong> Seamless session management with real-time token status monitoring</div>
+                <div><strong>Session Recovery:</strong> Maintains authentication state across browser refreshes and restarts</div>
+                <div><strong>Data Security:</strong> Rules stored securely in your Genesys Data Tables with proper access controls</div>
+              </Space>
+            </Card>
+
             <Alert
               message="Production Impact Warning"
               description="Rules deployed here immediately affect live call routing in your contact center. Always test thoroughly before deployment."
@@ -113,10 +122,10 @@ export const HelpWiki: React.FC<HelpWikiProps> = ({ visible, onClose }) => {
         <TabPane tab="Visual Editor" key="2" icon={<PartitionOutlined />}>
           <Space direction="vertical" style={{ width: '100%' }} size="large">
             <div>
-              <Title level={4}>Visual Rule Editor Guide</Title>
+              <Title level={4}>React Flow Visual Rule Editor</Title>
               <Paragraph>
-                The Visual Editor provides a flowchart-style interface for building complex routing logic. 
-                Each rule is represented as a connected flow of nodes.
+                The Visual Editor uses React Flow to provide an interactive flowchart interface for building complex routing logic. 
+                Each rule is automatically rendered as a connected flow of nodes with drag-and-drop manipulation, zoom controls, and a minimap for navigation.
               </Paragraph>
             </div>
 
@@ -266,14 +275,17 @@ export const HelpWiki: React.FC<HelpWikiProps> = ({ visible, onClose }) => {
               </Collapse>
             </Card>
 
-            <Card title="Visual Editor Controls" size="small">
+            <Card title="React Flow Editor Controls" size="small">
               <div style={{ padding: '8px 0' }}>
                 <ul style={{ paddingLeft: '20px' }}>
-                  <li style={{ marginBottom: '8px' }}><strong>Navigation:</strong> Pan by dragging background, zoom with mouse wheel</li>
-                  <li style={{ marginBottom: '8px' }}><strong>Selection:</strong> Click nodes to select and view properties</li>
-                  <li style={{ marginBottom: '8px' }}><strong>Connections:</strong> Automatically created based on rule flow logic</li>
-                  <li style={{ marginBottom: '8px' }}><strong>Properties Panel:</strong> Edit selected node properties on the right</li>
-                  <li style={{ marginBottom: '8px' }}><strong>Node Palette:</strong> Add new nodes from the left panel</li>
+                  <li style={{ marginBottom: '8px' }}><strong>Navigation:</strong> Pan by dragging background, zoom with mouse wheel, fit view controls</li>
+                  <li style={{ marginBottom: '8px' }}><strong>Minimap:</strong> Interactive overview for large rule flows with viewport indicator</li>
+                  <li style={{ marginBottom: '8px' }}><strong>Node Manipulation:</strong> Drag nodes to reposition, multi-select with Shift+Click</li>
+                  <li style={{ marginBottom: '8px' }}><strong>Auto Layout:</strong> Automatic node positioning using Dagre algorithm</li>
+                  <li style={{ marginBottom: '8px' }}><strong>Validation Panel:</strong> Real-time rule validation with error highlighting</li>
+                  <li style={{ marginBottom: '8px' }}><strong>Undo/Redo:</strong> Full history tracking for visual changes</li>
+                  <li style={{ marginBottom: '8px' }}><strong>Node Palette:</strong> Collapsible left panel for adding conditions and operators</li>
+                  <li style={{ marginBottom: '8px' }}><strong>Properties Panel:</strong> Right panel for editing selected node attributes</li>
                 </ul>
               </div>
             </Card>
@@ -606,13 +618,13 @@ export const HelpWiki: React.FC<HelpWikiProps> = ({ visible, onClose }) => {
                 />
                 <Step
                   icon={<ThunderboltOutlined />}
-                  title="Run Simulation"
-                  description="Click 'Run Test' to execute rules engine simulation"
+                  title="Run Advanced Simulation"
+                  description="Execute client-side rules engine with detailed condition-by-condition analysis"
                 />
                 <Step
                   icon={<FileTextOutlined />}
-                  title="Review Results"
-                  description="Analyze destination, matched rules, and execution details"
+                  title="Review Detailed Results"
+                  description="Analyze destination, matched rules, execution steps, timing metrics, and condition evaluation results"
                 />
               </Steps>
             </Card>
@@ -656,13 +668,15 @@ export const HelpWiki: React.FC<HelpWikiProps> = ({ visible, onClose }) => {
               </Collapse>
             </Card>
 
-            <Card title="Understanding Test Results" size="small">
+            <Card title="Advanced Simulation Results" size="small">
               <Space direction="vertical" style={{ width: '100%' }}>
-                <div><strong>Destination:</strong> The queue where the call would be routed</div>
-                <div><strong>Matched Rules:</strong> Which rules fired (in order of priority)</div>
-                <div><strong>Execution Time:</strong> How long rule evaluation took</div>
-                <div><strong>Evaluation Steps:</strong> Detailed breakdown of condition checking</div>
-                <div><strong>Condition Results:</strong> Shows which conditions passed/failed and why</div>
+                <div><strong>Final Destination:</strong> The queue where the call would be routed (or default if no rules match)</div>
+                <div><strong>Matched Rules:</strong> All rules that fired, listed in priority order with rule names and priorities</div>
+                <div><strong>Execution Metrics:</strong> Timing data including total execution time and rule evaluation performance</div>
+                <div><strong>Detailed Evaluation Steps:</strong> Step-by-step breakdown showing each condition evaluation</div>
+                <div><strong>Condition Analysis:</strong> For each condition, shows the actual values tested, expected values, and pass/fail status</div>
+                <div><strong>Dynamic Facts:</strong> Results of any dynamic fact calculations (time-based, computed values)</div>
+                <div><strong>Security Validation:</strong> Confirmation that input passed security checks (prototype pollution, ReDoS protection)</div>
               </Space>
             </Card>
 
